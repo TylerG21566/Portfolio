@@ -3,6 +3,8 @@ import './App.css'
 import DotsLinesBackground from './DotsLinesBackground';
 import ProjectFlipCard from './ProjectFlipCard';
 import BrewQuestImg from './assets/BrewQuest.png';
+import YourImage from './assets/Image.png';
+
 
 // Add global styles to prevent horizontal scroll
 if (typeof document !== 'undefined') {
@@ -273,17 +275,47 @@ function App() {
         margin: '0 auto',
         boxSizing: 'border-box'
       }}>
+      
         <section id="about" style={{ minHeight: '100vh', paddingTop: 40, paddingBottom: 40, width: '100%' }}>
           <AnimatedHeading>About Me</AnimatedHeading>
-          <div className="about-content" style={{ 
-            maxWidth: '100%',
-            paddingLeft: '10px',
-            paddingRight: '10px',
-            margin: '0 auto', 
-            fontSize: '1rem', 
-            lineHeight: 1.7,
+          <div className="about-content" style={{
+        maxWidth: '1200px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        margin: '0 auto',
+        boxSizing: 'border-box'
+      }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: window.innerWidth > 768 ? 'row' : 'column',
+          alignItems: 'center',
+          gap: window.innerWidth > 768 ? '40px' : '20px'
+        }}>
+          {/* Image on the left */}
+          <div style={{
+            flex: window.innerWidth > 768 ? '0 0 auto' : '1',
             textAlign: 'center',
-            boxSizing: 'border-box'
+            width: window.innerWidth > 768 ? 'auto' : '100%'
+          }}>
+            <img
+              src={YourImage}
+              alt="Description"
+              style={{
+                width: '60%', // 40% reduction from original
+                maxWidth: '300px',
+                height: 'auto',
+                display: 'block',
+                margin: '0 auto'
+              }}
+            />
+          </div>
+          
+          {/* Text content on the right */}
+          <div style={{
+            flex: '1',
+            fontSize: '1rem',
+            lineHeight: 1.7,
+            textAlign: window.innerWidth > 768 ? 'left' : 'center'
           }}>
             <p>
               <span role="img" aria-label="waving hand">👋</span> Hi, I'm Tyler Goyea, a BSc Computer Science student at the University of Manchester <span role="img" aria-label="graduation cap">🎓</span>.<br/>
@@ -291,11 +323,18 @@ function App() {
               <br/>I am passionate about software engineering <span role="img" aria-label="rocket">🚀</span>, currently on placement at IBM Hursley, and always eager to learn new technologies <span role="img" aria-label="light bulb">💡</span> and tackle challenging problems.
             </p>
             <p>
-              <a href="/src/assets/TylerGoyeaCV_Intern_Ult-1.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-outline-primary mt-2">
+              <a
+                href="/src/assets/TylerGoyeaCV_Intern_Ult-1.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline-primary mt-2"
+              >
                 <span role="img" aria-label="page">📄</span> View My CV
               </a>
             </p>
           </div>
+        </div>
+      </div>
         </section>
         
         <section id="projects" style={{ minHeight: '100vh', paddingTop: 40, paddingBottom: 40 }}>
