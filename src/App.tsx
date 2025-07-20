@@ -4,6 +4,27 @@ import DotsLinesBackground from './DotsLinesBackground';
 import ProjectFlipCard from './ProjectFlipCard';
 import BrewQuestImg from './assets/BrewQuest.png';
 
+// Add global styles to prevent horizontal scroll
+if (typeof document !== 'undefined') {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    #root {
+      width: 100%;
+      overflow-x: hidden;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 function Navbar({ onNavClick }: { onNavClick?: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void }) {
   return (
     <nav
@@ -12,12 +33,11 @@ function Navbar({ onNavClick }: { onNavClick?: (e: React.MouseEvent<HTMLAnchorEl
         position: 'fixed',
         left: '50%',
         transform: 'translateX(-50%)',
-        bottom: 'clamp(20px, 4vw, 40px)',
+        bottom: '20px',
         zIndex: 100,
-        minWidth: '320px',
-        maxWidth: '90vw',
-        width: 'fit-content',
-        padding: '0.3rem 1.5rem',
+        width: '90%',
+        maxWidth: '400px',
+        padding: '0.5rem 1rem',
         background: 'rgba(255,255,255,0.25)',
         boxShadow: '0 8px 32px 0 rgba(31,38,135,0.37)',
         backdropFilter: 'blur(12px) saturate(180%)',
@@ -26,10 +46,11 @@ function Navbar({ onNavClick }: { onNavClick?: (e: React.MouseEvent<HTMLAnchorEl
         borderRadius: '2rem',
         display: 'flex',
         justifyContent: 'center',
-        gap: '1.5rem',
+        gap: '1rem',
+        fontSize: '0.9rem',
       }}
     >
-      <a className="nav-link fw-semibold" href="#about" onClick={e => onNavClick && onNavClick(e, 'about')}>About Me</a>
+      <a className="nav-link fw-semibold" href="#about" onClick={e => onNavClick && onNavClick(e, 'about')}>About</a>
       <a className="nav-link fw-semibold" href="#projects" onClick={e => onNavClick && onNavClick(e, 'projects')}>Projects</a>
       <a className="nav-link fw-semibold" href="#experience" onClick={e => onNavClick && onNavClick(e, 'experience')}>Experience</a>
     </nav>
@@ -41,8 +62,8 @@ function DarkModeToggle({ dark, setDark }: { dark: boolean; setDark: (d: boolean
     <div
       style={{
         position: 'fixed',
-        top: 24,
-        right: 24,
+        top: 20,
+        right: 20,
         zIndex: 200,
         display: 'flex',
         alignItems: 'center',
@@ -53,8 +74,8 @@ function DarkModeToggle({ dark, setDark }: { dark: boolean; setDark: (d: boolean
         aria-label="Toggle dark mode"
         onClick={() => setDark(!dark)}
         style={{
-          width: 72,
-          height: 40,
+          width: 60,
+          height: 32,
           border: 'none',
           borderRadius: 24,
           background: dark ? '#23272b' : '#f3f3f3',
@@ -70,17 +91,17 @@ function DarkModeToggle({ dark, setDark }: { dark: boolean; setDark: (d: boolean
         <span
           style={{
             position: 'absolute',
-            left: dark ? 36 : 6,
-            top: 6,
-            width: 28,
-            height: 28,
+            left: dark ? '32px' : '4px',
+            top: '4px',
+            width: 24,
+            height: 24,
             borderRadius: '50%',
             background: dark ? '#ffd700' : '#222',
             color: dark ? '#222' : '#ffd700',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '1.5rem',
+            fontSize: '1rem',
             boxShadow: '0 1px 4px #0002',
             transition: 'left 0.3s, background 0.3s, color 0.3s',
           }}
@@ -102,7 +123,6 @@ function AnimatedHeading({ children }: { children: React.ReactNode }) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           el.classList.remove('animated-heading-grow');
-          // Force reflow to restart animation
           void el.offsetWidth;
           el.classList.add('animated-heading-grow');
         }
@@ -116,18 +136,27 @@ function AnimatedHeading({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <h1 ref={ref} className="mb-4 animated-heading">{children}</h1>
+    <h1 ref={ref} className="mb-4 animated-heading" style={{ fontSize: '2rem', textAlign: 'center' }}>{children}</h1>
   );
 }
 
 function App() {
-  // Set dark mode to true by default
   const [dark, setDark] = useState(() => true);
   const [cursorEmoji, setCursorEmoji] = useState('🐒')
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Scroll to About section on mount (only if not already at about)
+  // Detect mobile device
   React.useEffect(() => {
-    // Find the about section and scroll to it only if at the very top
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Scroll to About section on mount
+  React.useEffect(() => {
     const el = document.getElementById('about');
     if (el && window.scrollY < 10 && window.location.hash === '') {
       window.scrollTo({ top: el.offsetTop - 24, behavior: 'auto' });
@@ -144,25 +173,14 @@ function App() {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
-      const startY = window.scrollY;
-      const endY = el.getBoundingClientRect().top + window.scrollY - 24;
-      const duration = 700;
-      let start: number | null = null;
-      function step(timestamp: number) {
-        if (!start) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        const ease = 0.5 - Math.cos(progress * Math.PI) / 2;
-        window.scrollTo(0, startY + (endY - startY) * ease);
-        if (progress < 1) {
-          window.requestAnimationFrame(step);
-        }
-      }
-      window.requestAnimationFrame(step);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  // Cursor emoji effect
+  // Cursor emoji effect (desktop only)
   React.useEffect(() => {
+    if (isMobile) return;
+    
     const handleScroll = () => {
       const projects = document.getElementById('projects');
       const experience = document.getElementById('experience');
@@ -178,9 +196,11 @@ function App() {
     window.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobile]);
 
   React.useEffect(() => {
+    if (isMobile) return;
+    
     let cursor = document.getElementById('emoji-cursor') as HTMLDivElement | null;
     if (!cursor) {
       cursor = document.createElement('div');
@@ -199,16 +219,15 @@ function App() {
       cursor!.textContent = cursorEmoji;
     };
     window.addEventListener('mousemove', move);
-    // Always update emoji on prop change
     cursor.textContent = cursorEmoji;
     return () => {
       window.removeEventListener('mousemove', move);
-      // Do not remove the cursor div here, just let it persist
     };
-  }, [cursorEmoji]);
+  }, [cursorEmoji, isMobile]);
 
   React.useEffect(() => {
-    // Hide the default cursor and pointer
+    if (isMobile) return;
+    
     document.body.style.cursor = 'none';
     const style = document.createElement('style');
     style.id = 'hide-pointer-cursor';
@@ -219,16 +238,53 @@ function App() {
       const s = document.getElementById('hide-pointer-cursor');
       if (s) s.remove();
     };
-  }, []);
+  }, [isMobile]);
 
   return (
-    <>
-      <DotsLinesBackground />
+    <div style={{ 
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      width: '100vw',
+      height: '100vh',
+      overflow: 'auto',
+      WebkitOverflowScrolling: 'touch'
+    }}>
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0
+      }}>
+        <DotsLinesBackground />
+      </div>
       <DarkModeToggle dark={dark} setDark={setDark} />
-      <main>
-        <section id="about" style={{ minHeight: '100vh', paddingTop: 60, paddingBottom: 60 }}>
+      <main style={{ 
+        position: 'relative',
+        zIndex: 1,
+        padding: '20px', 
+        paddingBottom: '100px',
+        width: '100%',
+        maxWidth: '100vw',
+        margin: '0 auto',
+        boxSizing: 'border-box'
+      }}>
+        <section id="about" style={{ minHeight: '100vh', paddingTop: 40, paddingBottom: 40, width: '100%' }}>
           <AnimatedHeading>About Me</AnimatedHeading>
-          <div className="about-content" style={{ maxWidth: 700, margin: '0 auto', fontSize: '1.15rem', lineHeight: 1.7 }}>
+          <div className="about-content" style={{ 
+            maxWidth: '100%',
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            margin: '0 auto', 
+            fontSize: '1rem', 
+            lineHeight: 1.7,
+            textAlign: 'center',
+            boxSizing: 'border-box'
+          }}>
             <p>
               <span role="img" aria-label="waving hand">👋</span> Hi, I'm Tyler Goyea, a BSc Computer Science student at the University of Manchester <span role="img" aria-label="graduation cap">🎓</span>.<br/>
               I achieved 5A* at A-Level (Mathematics <span role="img" aria-label="abacus">🧮</span>, Further Mathematics <span role="img" aria-label="chart">📈</span>, Physics <span role="img" aria-label="atom">⚛️</span>, Computer Science <span role="img" aria-label="laptop">💻</span>, and EPQ <span role="img" aria-label="books">📚</span>).
@@ -241,18 +297,17 @@ function App() {
             </p>
           </div>
         </section>
-        <section id="projects" style={{ minHeight: '100vh', paddingTop: 60, paddingBottom: 60 }}>
+        
+        <section id="projects" style={{ minHeight: '100vh', paddingTop: 40, paddingBottom: 40 }}>
           <AnimatedHeading>Projects</AnimatedHeading>
           <div style={{
             display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '2.2rem',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '2rem',
             maxWidth: 900,
             margin: '0 auto',
-            padding: '1.5rem 0',
           }}>
-            {/* Example projects, replace with your real data */}
             <ProjectFlipCard
               title="BrewQuest"
               description="A gamified coffee discovery app for enthusiasts."
@@ -270,216 +325,145 @@ function App() {
             />
           </div>
         </section>
-        <section id="experience" style={{ minHeight: '100vh', paddingTop: 60, paddingBottom: 60 }}>
+        
+        <section id="experience" style={{ minHeight: '100vh', paddingTop: 40, paddingBottom: 40 }}>
           <AnimatedHeading>Experience</AnimatedHeading>
           <div className="experience-widgets" style={{
             maxWidth: 900,
             margin: '0 auto',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, minmax(320px, 1fr))',
-            gap: '2.2rem',
-            alignItems: 'stretch',
-            padding: '1.5rem 0',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.5rem',
           }}>
             {/* IBM Hursley Widget */}
-            <div className="widget widget-lg" style={{
-              background: 'rgba(255,255,255,0.012)', // nearly invisible
-              borderRadius: '2.2rem',
-              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.012)',
+            <div className="widget" style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '1.5rem',
+              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.1)',
               backdropFilter: 'blur(16px) saturate(180%)',
               WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-              border: '1.5px solid rgba(255,255,255,0.018)',
-              padding: '2.2rem 2rem 1.5rem 2rem',
-              minHeight: 320,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 12,
-              justifyContent: 'flex-start',
-              gridRow: '1 / span 1',
-              gridColumn: '1 / span 2',
+              border: '1.5px solid rgba(255,255,255,0.1)',
+              padding: '1.5rem',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 2 }}>
-                <span style={{ fontSize: '2.1rem', flexShrink: 0 }} role="img" aria-label="office">💼</span>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
+                <span style={{ fontSize: '1.8rem' }} role="img" aria-label="office">💼</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: '1.25rem', lineHeight: 1.2 }}>Software Engineer Industrial Placement</div>
-                  <div style={{ color: '#888', fontWeight: 500, fontSize: '1rem', lineHeight: 1.2 }}>IBM Hursley · Winchester, UK</div>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Software Engineer Industrial Placement</div>
+                  <div style={{ color: '#888', fontSize: '0.9rem' }}>IBM Hursley · Winchester, UK</div>
+                  <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>July 2025 - May 2026</div>
                 </div>
               </div>
-              <div style={{ color: '#888', fontWeight: 400, fontSize: '0.98rem', marginBottom: 6, marginTop: 2 }}>July 2025 - May 2026</div>
-              <ul style={{ margin: 0, paddingLeft: 0, fontSize: '1.05rem', lineHeight: 1.7, listStyle: 'none' }}>
-                {[
-                  'Industrial placement as a Software Engineer at IBM\'s Hursley Park campus, contributing to enterprise software solutions and collaborating with global teams.',
-                  'Worked on real-world projects using modern technologies and agile methodologies.',
-                  'Gained experience in large-scale software development, code reviews, and continuous integration.'
-                ].map((text, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 6 }}>
-                    <span style={{ fontSize: '1.1em', marginTop: 2, color: '#3b82f6' }}>🧑‍🔬</span>
-                    <span>{text}</span>
-                  </li>
-                ))}
+              <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
+                <li>Industrial placement at IBM's Hursley Park campus</li>
+                <li>Contributing to enterprise software solutions</li>
+                <li>Working with modern technologies and agile methodologies</li>
               </ul>
             </div>
+
             {/* Software Engineer Intern Widget */}
-            <div className="widget widget-sm" style={{
-              background: 'rgba(255,255,255,0.012)',
-              borderRadius: '2.2rem',
-              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.012)',
+            <div className="widget" style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '1.5rem',
+              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.1)',
               backdropFilter: 'blur(16px) saturate(180%)',
               WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-              border: '1.5px solid rgba(255,255,255,0.018)',
-              padding: '2.2rem 2rem 1.5rem 2rem',
-              minHeight: 320,
-              minWidth: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 12,
-              justifyContent: 'flex-start',
-              gridRow: '2 / span 2',
-              gridColumn: '1 / span 1',
+              border: '1.5px solid rgba(255,255,255,0.1)',
+              padding: '1.5rem',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 2 }}>
-                <span style={{ fontSize: '2.1rem', flexShrink: 0 }} role="img" aria-label="office">🏢</span>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
+                <span style={{ fontSize: '1.8rem' }} role="img" aria-label="office">🏢</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: '1.25rem', lineHeight: 1.2 }}>Software Engineer Intern</div>
-                  <div style={{ color: '#888', fontWeight: 500, fontSize: '1rem', lineHeight: 1.2 }}>Al Jaber Group · Abu Dhabi, UAE</div>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Software Engineer Intern</div>
+                  <div style={{ color: '#888', fontSize: '0.9rem' }}>Al Jaber Group · Abu Dhabi, UAE</div>
+                  <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>Aug. 2024 - Sept. 2024</div>
                 </div>
               </div>
-              <div style={{ color: '#888', fontWeight: 400, fontSize: '0.98rem', marginBottom: 6, marginTop: 2 }}>Aug. 2024 - Sept. 2024</div>
-              <ul style={{ margin: 0, paddingLeft: 0, fontSize: '1.05rem', lineHeight: 1.7, listStyle: 'none' }}>
-                {[
-                  'Enhanced legacy code base at a $9B Construction & Energy Group and developed a feature for an existing web app used by 300 employees, primarily using ',
-                  <span key="b1"><b>C#</b>, <b>.NET</b>, and <b>SQL Server</b></span>,
-                  'Built prototype leave request generation site with ',
-                  <span key="b2"><b>MongoDB</b>, <b>Node.js</b>, <b>Express.js</b>, and <b>React.js</b></span>,
-                  'Developed Account Reconciliation Program for Finance Department staff that auto-generated summaries in Excel'
-                ].map((text, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 6 }}>
-                    <span style={{ fontSize: '1.1em', marginTop: 2, color: '#3b82f6' }}>🛠️</span>
-                    <span>{text}</span>
-                  </li>
-                ))}
+              <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
+                <li>Enhanced legacy code base using <b>C#</b>, <b>.NET</b>, and <b>SQL Server</b></li>
+                <li>Built prototype with <b>MongoDB</b>, <b>Node.js</b>, <b>Express.js</b>, and <b>React.js</b></li>
+                <li>Developed Account Reconciliation Program for Finance Department</li>
               </ul>
             </div>
+
             {/* EV Software Team Widget */}
-            <div className="widget widget-md" style={{
-              background: 'rgba(255,255,255,0.012)',
-              borderRadius: '2.2rem',
-              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.012)',
+            <div className="widget" style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '1.5rem',
+              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.1)',
               backdropFilter: 'blur(16px) saturate(180%)',
               WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-              border: '1.5px solid rgba(255,255,255,0.018)',
-              padding: '1.7rem 1.5rem 1.2rem 1.5rem',
-              minHeight: 260,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 10,
-              justifyContent: 'flex-start',
-              gridRow: '2 / span 1',
-              gridColumn: '2 / span 1',
+              border: '1.5px solid rgba(255,255,255,0.1)',
+              padding: '1.5rem',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 2 }}>
-                <span style={{ fontSize: '2rem', flexShrink: 0 }} role="img" aria-label="racecar">🏎️</span>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
+                <span style={{ fontSize: '1.8rem' }} role="img" aria-label="racecar">🏎️</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: '1.15rem', lineHeight: 1.2 }}>Electric Vehicle Software Team</div>
-                  <div style={{ color: '#888', fontWeight: 500, fontSize: '0.98rem', lineHeight: 1.2 }}>UoM Formula Student · Manchester, UK</div>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Electric Vehicle Software Team</div>
+                  <div style={{ color: '#888', fontSize: '0.9rem' }}>UoM Formula Student · Manchester, UK</div>
+                  <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>Oct. 2024 - Mar. 2025</div>
                 </div>
               </div>
-              <div style={{ color: '#888', fontWeight: 400, fontSize: '0.95rem', marginBottom: 6, marginTop: 2 }}>Oct. 2024 - Mar. 2025</div>
-              <ul style={{ margin: 0, paddingLeft: 0, fontSize: '1.01rem', lineHeight: 1.7, listStyle: 'none' }}>
-                {[
-                  'Developing formula-style racecars with 80+ students to race other universities in engineering competition',
-                  'Collaborate with hardware teams to integrate software solutions for data logging, telemetry, and data visualization',
-                  'Gain proficiency in ',
-                  <span key="b3"><b>C programming</b> for STM32 microcontrollers to develop firmware for inverter commands</span>
-                ].map((text, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 6 }}>
-                    <span style={{ fontSize: '1.1em', marginTop: 2, color: '#10b981' }}>🏁</span>
-                    <span>{text}</span>
-                  </li>
-                ))}
+              <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
+                <li>Developing formula-style racecars with 80+ students</li>
+                <li>Integrating software for data logging and telemetry</li>
+                <li>Programming in <b>C</b> for STM32 microcontrollers</li>
               </ul>
             </div>
+
             {/* Operational Finance Intern Widget */}
-            <div className="widget widget-sm" style={{
-              background: 'rgba(255,255,255,0.012)',
-              borderRadius: '2.2rem',
-              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.012)',
+            <div className="widget" style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '1.5rem',
+              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.1)',
               backdropFilter: 'blur(16px) saturate(180%)',
               WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-              border: '1.5px solid rgba(255,255,255,0.018)',
-              padding: '1.2rem 1.2rem 1rem 1.2rem',
-              minHeight: 180,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 8,
-              justifyContent: 'flex-start',
-              gridRow: '3 / span 1',
-              gridColumn: '2 / span 1',
+              border: '1.5px solid rgba(255,255,255,0.1)',
+              padding: '1.5rem',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 2 }}>
-                <span style={{ fontSize: '1.7rem', flexShrink: 0 }} role="img" aria-label="money">💸</span>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
+                <span style={{ fontSize: '1.8rem' }} role="img" aria-label="money">💸</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: '1.05rem', lineHeight: 1.2 }}>Operational Finance Intern</div>
-                  <div style={{ color: '#888', fontWeight: 500, fontSize: '0.93rem', lineHeight: 1.2 }}>Al Jaber Group · Abu Dhabi, UAE</div>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Operational Finance Intern</div>
+                  <div style={{ color: '#888', fontSize: '0.9rem' }}>Al Jaber Group · Abu Dhabi, UAE</div>
+                  <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>June. 2024 - July. 2024</div>
                 </div>
               </div>
-              <div style={{ color: '#888', fontWeight: 400, fontSize: '0.92rem', marginBottom: 6, marginTop: 2 }}>June. 2024 - July. 2024</div>
-              <ul style={{ margin: 0, paddingLeft: 0, fontSize: '0.98rem', lineHeight: 1.7, listStyle: 'none' }}>
-                {[
-                  'Generated payment vouchers for material purchases',
-                  'Processed invoices and LPOs to generate payment vouchers using Oracle JD Edwards EnterpriseOne',
-                  'Reconciliation of A/P and A/R accounts in company database'
-                ].map((text, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 6 }}>
-                    <span style={{ fontSize: '1.1em', marginTop: 2, color: '#f59e42' }}>💸</span>
-                    <span>{text}</span>
-                  </li>
-                ))}
+              <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
+                <li>Generated payment vouchers for material purchases</li>
+                <li>Processed invoices using Oracle JD Edwards EnterpriseOne</li>
+                <li>Reconciled A/P and A/R accounts</li>
               </ul>
             </div>
+
             {/* Blockchain Research Widget */}
-            <div className="widget widget-lg" style={{
-              background: 'rgba(255,255,255,0.012)',
-              borderRadius: '2.2rem',
-              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.012)',
+            <div className="widget" style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '1.5rem',
+              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.1)',
               backdropFilter: 'blur(16px) saturate(180%)',
               WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-              border: '1.5px solid rgba(255,255,255,0.018)',
-              padding: '1.7rem 1.5rem 1.2rem 1.5rem',
-              minHeight: 220,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 10,
-              justifyContent: 'flex-start',
-              gridRow: '4 / span 1',
-              gridColumn: '1 / span 2',
+              border: '1.5px solid rgba(255,255,255,0.1)',
+              padding: '1.5rem',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 2 }}>
-                <span style={{ fontSize: '2rem', flexShrink: 0 }} role="img" aria-label="blockchain">⛓️</span>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
+                <span style={{ fontSize: '1.8rem' }} role="img" aria-label="blockchain">⛓️</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: '1.15rem', lineHeight: 1.2 }}>Blockchain Student Research Assistant</div>
-                  <div style={{ color: '#888', fontWeight: 500, fontSize: '0.98rem', lineHeight: 1.2 }}>NYU (Intl. Site) · Abu Dhabi, UAE</div>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Blockchain Student Research Assistant</div>
+                  <div style={{ color: '#888', fontSize: '0.9rem' }}>NYU (Intl. Site) · Abu Dhabi, UAE</div>
+                  <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>June. 2022 - July. 2022</div>
                 </div>
               </div>
-              <div style={{ color: '#888', fontWeight: 400, fontSize: '0.95rem', marginBottom: 6, marginTop: 2 }}>June. 2022 - July. 2022</div>
-              <ul style={{ margin: 0, paddingLeft: 0, fontSize: '1.01rem', lineHeight: 1.7, listStyle: 'none' }}>
-                {[
-                  'Trialed ideas conceived by supervising professor, developed React-based web application with 3 Student Assistants',
-                  'The application simulated the use of Ethereum NFTs to trade energy allowance tokens by government agencies and firms',
-                  'Met 3 Sustainable Development Goals, implemented Solidity Ethereum smart contracts, and built a Node.js back-end'
-                ].map((text, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 6 }}>
-                    <span style={{ fontSize: '1.1em', marginTop: 2, color: '#a855f7' }}>⛓️</span>
-                    <span>{text}</span>
-                  </li>
-                ))}
+              <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
+                <li>Developed React-based web application with 3 Student Assistants</li>
+                <li>Simulated Ethereum NFTs for energy allowance trading</li>
+                <li>Implemented Solidity smart contracts and Node.js backend</li>
               </ul>
             </div>
           </div>
         </section>
       </main>
       <Navbar onNavClick={handleNavClick} />
-    </>
+    </div>
   )
 }
 
