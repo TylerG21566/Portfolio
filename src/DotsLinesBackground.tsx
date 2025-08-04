@@ -14,7 +14,8 @@ export default function DotsLinesBackground() {
     let width = window.innerWidth;
     let height = window.innerHeight;
     let dpr = window.devicePixelRatio || 1;
-    const DOTS = 60;
+    const DOTS = 10; 
+    const MIN_LINE_DIST = 120;
     // Assign each dot a color
     const COLORS = [
       '#ff5e5b', // red
@@ -23,7 +24,7 @@ export default function DotsLinesBackground() {
       '#00a6ed', // blue
       '#8f2dff', // purple
       '#ff4ecd', // pink
-      '#00e6c3', // teal
+      '#00e6c3ff', // teal
       '#ffd700', // yellow
     ];
     type Dot = { x: number; y: number; vx: number; vy: number; color: string };
@@ -65,7 +66,7 @@ export default function DotsLinesBackground() {
           const dx = dots[i].x - dots[j].x;
           const dy = dots[i].y - dots[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
+          if (dist < MIN_LINE_DIST ) {
             // Blend the two dot colors for the line
             const grad = ctx.createLinearGradient(dots[i].x, dots[i].y, dots[j].x, dots[j].y);
             grad.addColorStop(0, dots[i].color);
