@@ -282,7 +282,7 @@ function App() {
         boxSizing: 'border-box'
       }}>
       
-        <section id="about" style={{ minHeight: '100vh', paddingTop: 40, paddingBottom: 40, width: '100%' }}>
+        <section id="about" style={{ minHeight: '20vh', paddingTop: 40, paddingBottom: 40, width: '100%' }}>
           <AnimatedHeading>About Me</AnimatedHeading>
           <div className="about-content" style={{
         maxWidth: '1200px',
