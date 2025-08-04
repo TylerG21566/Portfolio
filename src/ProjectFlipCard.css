@@ -91,3 +91,28 @@
     height: 110px;
   }
 }
+
+
+/* Light mode (default) */
+.project-title {
+  color: #222; /* Dark text for light mode */
+}
+
+/* Dark mode */
+body.dark-mode .project-title {
+  color: #fff; /* Light text for dark mode */
+}
+
+/* For the flip card back */
+.flip-card-back .project-title {
+  color: #ffd700; /* Gold color for back side */
+}
+
+/* Ensure dark mode works for both sides */
+body.dark-mode .flip-card-front .project-title {
+  color: #fff;
+}
+
+body.dark-mode .flip-card-back .project-title {
+  color: #ffd700;
+}

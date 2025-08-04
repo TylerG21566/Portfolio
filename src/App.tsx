@@ -3,6 +3,11 @@ import './App.css'
 import DotsLinesBackground from './DotsLinesBackground';
 import ProjectFlipCard from './ProjectFlipCard';
 import BrewQuestImg from './assets/BrewQuest.png';
+import Github from './assets/Github.png';
+import CannyDetect from './assets/CannyDetect.jpg';
+import HFT from './assets/HFT.jpg';
+import SpamDetect from './assets/email_spam.jpg';
+import Kilburn from './assets/Kilburn.jpg';
 import YourImage from './assets/Image.png';
 
 
@@ -327,6 +332,9 @@ function App() {
               <span role="img" aria-label="waving hand">👋</span> Hi, I'm Tyler Goyea, a BSc Computer Science student at the University of Manchester <span role="img" aria-label="graduation cap">🎓</span>.<br/>
               I achieved 5A* at A-Level (Mathematics <span role="img" aria-label="abacus">🧮</span>, Further Mathematics <span role="img" aria-label="chart">📈</span>, Physics <span role="img" aria-label="atom">⚛️</span>, Computer Science <span role="img" aria-label="laptop">💻</span>, and EPQ <span role="img" aria-label="books">📚</span>).
               <br/>I am passionate about software engineering <span role="img" aria-label="rocket">🚀</span>, currently on placement at IBM Hursley, and always eager to learn new technologies <span role="img" aria-label="light bulb">💡</span> and tackle challenging problems.
+              <br/>Main Languages: Python, Java, C++, Javascript, PHP, Typescript, C, C#, haskell
+              <br/>Frameworks: .NET, Django, React, Node js, Express js, MongoDb, Tailwind, bootstrap, Springboot
+              <br/>Technologies : Git, Docker, Kubernetes, PostgreSQL, PyTest, Junit
             </p>
             <p>
               <a
@@ -344,7 +352,7 @@ function App() {
         </section>
         
         <section id="projects" style={{ minHeight: '100vh', paddingTop: 40, paddingBottom: 40 }}>
-          <AnimatedHeading>Projects</AnimatedHeading>
+          <AnimatedHeading>Projects - click to view</AnimatedHeading>
           <div style={{
             display: 'flex',
             flexDirection: 'column',
@@ -354,20 +362,48 @@ function App() {
             margin: '0 auto',
           }}>
             <ProjectFlipCard
-              title="BrewQuest"
+              title="CLICK HERE FOR MORE PROJECTS..."
+              description="below is a some of my favorite projects"
+              image={Github}
+              link = "https://github.com/TylerG21566"
+            />
+
+            <ProjectFlipCard
+              title="BrewQuest [Python, Typescript, Django, React, Websockets]"
               description="A gamified coffee discovery app for enthusiasts."
               image={BrewQuestImg}
+              link = "https://github.com/TylerG21566/BrewQuest"
             />
             <ProjectFlipCard
-              title="Portfolio Website"
-              description="My personal site built with React, TypeScript, and Vite."
-              image={BrewQuestImg}
+              title="Polynomial edge detection [C++, bash]"
+              description="Utilizes Hough Line transform, Canny edge detection, and OpenCV for preprocessing"
+              image={CannyDetect}
+              link = "https://github.com/TylerG21566/PolynomialEdgeDetection"
             />
+
             <ProjectFlipCard
-              title="TaskFlow"
-              description="A productivity tool for managing daily tasks and goals."
-              image={BrewQuestImg}
+              title="High frequency stock data processing [C++]"
+              description="Utilizes AlphaVantage API for processing high frequency stock data. (work in progress)"
+              image={HFT}
+              link = "https://github.com/TylerG21566/High-frequency-market-data-processor"
             />
+
+            <ProjectFlipCard
+              title="Kilburnazon [PHP, SQL, Javascript, HTML, CSS]"
+              description="Mock amazon company internal employee management system"
+              image={Kilburn}
+              link = "https://github.com/TylerG21566/Kilburnazon"
+            />
+
+            <ProjectFlipCard
+              title="Naive bayes classifier for spam email filtering [Python, JSON, Juypter notebook]"
+              description="Uses real world data to train a naive bayes classifier for spam email filtering, 98% accuracy"
+              image={SpamDetect}
+              link = "https://github.com/TylerG21566/CompanyEmailSpamFilter"
+            />
+
+
+            
           </div>
         </section>
         
