@@ -3,7 +3,7 @@ import './App.css'
 import DotsLinesBackground from './DotsLinesBackground';
 import ProjectFlipCard from './ProjectFlipCard';
 import BrewQuestImg from './assets/BrewQuest.png';
-import Github from './assets/Github.png';
+import Github from './assets/GitHub.png';
 import CannyDetect from './assets/CannyDetect.jpg';
 import HFT from './assets/HFT.jpg';
 import SpamDetect from './assets/email_spam.jpg';
