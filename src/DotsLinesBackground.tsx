@@ -16,14 +16,14 @@ export default function DotsLinesBackground() {
   let dpr = window.devicePixelRatio || 1;
   
   const DOTS = 6;
-  const MIN_LINE_DIST = 120;
-  const MIN_LINE_DIST_SQUARED = MIN_LINE_DIST * MIN_LINE_DIST; // Avoid sqrt
+  // const MIN_LINE_DIST = 120;
+  // const MIN_LINE_DIST_SQUARED = MIN_LINE_DIST * MIN_LINE_DIST; // Avoid sqrt
   
   // Pre-calculate constants
   const DOT_RADIUS = 2.8;
   const PI_2 = Math.PI * 2;
   const LINE_WIDTH = 1.2;
-  const SHADOW_BLUR = 8;
+  // const SHADOW_BLUR = 8;
   
   const COLORS = [
     '#ff5e5b', '#fbb13c', '#3ec300', '#00a6ed',
@@ -35,7 +35,7 @@ export default function DotsLinesBackground() {
 
   // Pre-create gradients cache to avoid recreating them each frame
   const gradientCache = new Map<string, CanvasGradient>();
-
+/*
   function getGradient(x1: number, y1: number, x2: number, y2: number, color1: string, color2: string): CanvasGradient | string {
     const key = `${Math.round(x1)},${Math.round(y1)},${Math.round(x2)},${Math.round(y2)},${color1},${color2}`;
     let grad = gradientCache.get(key);
@@ -58,7 +58,7 @@ export default function DotsLinesBackground() {
     }
     return grad;
   }
-
+*/
   function resize() {
     if (!canvas || !ctx) return;
     width = window.innerWidth;

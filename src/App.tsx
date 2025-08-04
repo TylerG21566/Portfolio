@@ -144,7 +144,6 @@ function AnimatedHeading({ children }: { children: React.ReactNode }) {
 
 function App() {
   const [dark, setDark] = useState(() => true);
-  const [cursorEmoji, setCursorEmoji] = useState('🐒')
   const [isMobile, setIsMobile] = useState(false);
 
   // Detect mobile device
@@ -153,7 +152,14 @@ function App() {
       setIsMobile(window.innerWidth <= 768);
     };
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+ 
+    if (isMobile) {
+      window.addEventListener('resize', checkMobile);
+    }else{
+      window.addEventListener('resize', checkMobile);
+    }
+    
+    
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
