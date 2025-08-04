@@ -178,7 +178,7 @@ function App() {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-
+/*
   // Cursor emoji effect (desktop only)
   React.useEffect(() => {
     if (isMobile) return;
@@ -241,7 +241,7 @@ function App() {
       if (s) s.remove();
     };
   }, [isMobile]);
-
+*/
   return (
     <div style={{ 
       position: 'fixed',
