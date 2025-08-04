@@ -15,7 +15,7 @@ export default function DotsLinesBackground() {
   let height = window.innerHeight;
   let dpr = window.devicePixelRatio || 1;
   
-  const DOTS = 12;
+  const DOTS = 6;
   const MIN_LINE_DIST = 120;
   const MIN_LINE_DIST_SQUARED = MIN_LINE_DIST * MIN_LINE_DIST; // Avoid sqrt
   
@@ -101,12 +101,13 @@ export default function DotsLinesBackground() {
     
     // Batch similar drawing operations
     ctx.lineWidth = LINE_WIDTH;
-    
+    /*
     // Draw lines first (behind dots)
     for (let i = 0; i < DOTS; i++) {
       const dot1 = dots[i];
       for (let j = i + 1; j < DOTS; j++) {
         const dot2 = dots[j];
+       
         const dx = dot1.x - dot2.x;
         const dy = dot1.y - dot2.y;
         const distSquared = dx * dx + dy * dy; // Avoid expensive sqrt
@@ -122,13 +123,15 @@ export default function DotsLinesBackground() {
           ctx.lineTo(dot2.x, dot2.y);
           ctx.stroke();
         }
+          
       }
+        
     }
     
     // Reset alpha and set shadow properties once
     ctx.globalAlpha = 1;
     ctx.shadowBlur = SHADOW_BLUR;
-    
+    */
     // Draw all dots
     for (let i = 0; i < DOTS; i++) {
       const dot = dots[i];
