@@ -369,16 +369,23 @@ function App() {
             />
 
             <ProjectFlipCard
-              title="BrewQuest [Python, Typescript, Django, React, Websockets]"
+              title="BrewQuest [Python, Typescript, Django, React, Websockets] + slides"
               description="A gamified coffee discovery app for enthusiasts."
               image={BrewQuestImg}
               link = "https://github.com/TylerG21566/BrewQuest"
             />
             <ProjectFlipCard
-              title="Polynomial edge detection [C++, bash]"
+              title="Polynomial edge detection [C++, bash] + pdf report "
               description="Utilizes Hough Line transform, Canny edge detection, and OpenCV for preprocessing"
               image={CannyDetect}
               link = "https://github.com/TylerG21566/PolynomialEdgeDetection"
+            />
+
+            <ProjectFlipCard
+              title="Kilburnazon [PHP, SQL, Javascript, HTML, CSS] + Youtube video"
+              description="Mock amazon company internal employee management system"
+              image={Kilburn}
+              link = "https://github.com/TylerG21566/Kilburnazon"
             />
 
             <ProjectFlipCard
@@ -388,12 +395,6 @@ function App() {
               link = "https://github.com/TylerG21566/High-frequency-market-data-processor"
             />
 
-            <ProjectFlipCard
-              title="Kilburnazon [PHP, SQL, Javascript, HTML, CSS]"
-              description="Mock amazon company internal employee management system"
-              image={Kilburn}
-              link = "https://github.com/TylerG21566/Kilburnazon"
-            />
 
             <ProjectFlipCard
               title="Naive bayes classifier for spam email filtering [Python, JSON, Juypter notebook]"
