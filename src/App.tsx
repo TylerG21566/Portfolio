@@ -321,21 +321,71 @@ function App() {
             />
           </div>
           
-          {/* Text content on the right */}
-          <div style={{
-            flex: '1',
-            fontSize: '1rem',
-            lineHeight: 1.7,
-            textAlign: window.innerWidth > 768 ? 'left' : 'center'
-          }}>
-            <p>
-              <span role="img" aria-label="waving hand">👋</span> Hi, I'm Tyler Goyea, a BSc Computer Science student at the University of Manchester <span role="img" aria-label="graduation cap">🎓</span>.<br/>
-              I achieved 5A* at A-Level (Mathematics <span role="img" aria-label="abacus">🧮</span>, Further Mathematics <span role="img" aria-label="chart">📈</span>, Physics <span role="img" aria-label="atom">⚛️</span>, Computer Science <span role="img" aria-label="laptop">💻</span>, and EPQ <span role="img" aria-label="books">📚</span>).
-              <br/>I am passionate about software engineering <span role="img" aria-label="rocket">🚀</span>, currently on placement at IBM Hursley, and always eager to learn new technologies <span role="img" aria-label="light bulb">💡</span> and tackle challenging problems.
-              <br/>Main Languages: Python, Java, C++, Javascript, PHP, Typescript, C, C#, haskell
-              <br/>Frameworks: .NET, Django, React, Node js, Express js, MongoDb, Tailwind, bootstrap, Springboot
-              <br/>Technologies : Git, Docker, Kubernetes, PostgreSQL, PyTest, Junit
-            </p>
+       {/* Text content on the right */}
+<div style={{
+    flex: '1',
+    fontSize: '1rem',
+    lineHeight: 1.7,
+    textAlign: window.innerWidth > 768 ? 'left' : 'center'
+  }}>
+  <div className="widget" style={{padding: '20px'}}>
+    <div className="tyler-header">
+        <h1 className="tyler-name">Tyler Goyea</h1>
+        <p className="tyler-title">BSc Computer Science Student | University of Manchester</p>
+        <p className="tyler-achievements">5A* at A-Level, First Class at University</p>
+    </div>
+{/* Highlighted text * 
+    <div className="tyler-highlight tyler-widget">
+        <strong>Currently on placement at IBM Hursley</strong>
+    </div>
+    */}  
+  
+    <div className="tyler-skills-grid">
+        <div className="tyler-skill-category widget tyler-widget-md">
+            <h3>Programming Languages</h3>
+            <div className="tyler-skill-list">
+                <span className="tyler-skill-tag">Python</span>
+                <span className="tyler-skill-tag">Java</span>
+                <span className="tyler-skill-tag">C++</span>
+                <span className="tyler-skill-tag">JavaScript</span>
+                <span className="tyler-skill-tag">TypeScript</span>
+                <span className="tyler-skill-tag">PHP</span>
+                <span className="tyler-skill-tag">C</span>
+                <span className="tyler-skill-tag">C#</span>
+                <span className="tyler-skill-tag">Haskell</span>
+            </div>
+        </div>
+        
+        <div className="tyler-skill-category widget tyler-widget-md">
+            <h3>Frameworks & Libraries</h3>
+            <div className="tyler-skill-list">
+                <span className="tyler-skill-tag">.NET</span>
+                <span className="tyler-skill-tag">Django</span>
+                <span className="tyler-skill-tag">React</span>
+                <span className="tyler-skill-tag">Node.js</span>
+                <span className="tyler-skill-tag">Express.js</span>
+                <span className="tyler-skill-tag">Spring Boot</span>
+                <span className="tyler-skill-tag">Tailwind CSS</span>
+                <span className="tyler-skill-tag">Bootstrap</span>
+            </div>
+        </div>
+        
+        <div className="tyler-skill-category widget tyler-widget-lg">
+            <h3>Technologies & Tools</h3>
+            <div className="tyler-skill-list">
+                <span className="tyler-skill-tag">Git</span>
+                <span className="tyler-skill-tag">Docker</span>
+                <span className="tyler-skill-tag">Kubernetes</span>
+                <span className="tyler-skill-tag">PostgreSQL</span>
+                <span className="tyler-skill-tag">MongoDB</span>
+                <span className="tyler-skill-tag">MySQL</span>
+                <span className="tyler-skill-tag">PyTest</span>
+                <span className="tyler-skill-tag">JUnit</span>
+                <span className="tyler-skill-tag">Unix</span>
+            </div>
+        </div>
+    </div>
+</div>
             <p>
               <a
                 href="/src/assets/TylerGoyeaCV_Intern_Ult-1.pdf"
