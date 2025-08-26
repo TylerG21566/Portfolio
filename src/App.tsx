@@ -388,7 +388,7 @@ function App() {
 </div>
             <p>
               <a
-                href="/src/assets/CV.pdf"
+                href="/CV.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-outline-primary mt-2"
