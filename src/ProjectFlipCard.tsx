@@ -11,12 +11,9 @@ interface ProjectFlipCardProps {
 
 const ProjectFlipCard: React.FC<ProjectFlipCardProps> = ({ title, description, image, onClick, link}) => {
   const handleClick = () => {
-    if (onClick) {
-      onClick();
-    } else if (link) {
-      window.open(link, '_blank');
-    }
-  };
+  onClick?.();
+  if (link) window.open(link, '_blank', 'noopener,noreferrer');
+};
 
   
   return (
