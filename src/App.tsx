@@ -331,14 +331,13 @@ function App() {
   <div className="widget" style={{padding: '20px'}}>
     <div className="tyler-header">
         <h1 className="tyler-name">Tyler Goyea</h1>
-        <p className="tyler-title">BSc Computer Science Student | University of Manchester</p>
-        <p className="tyler-achievements">5A* at A-Level, First Class at University</p>
+        <p className="tyler-title">BSc Computer Science with Industrial Placement | University of Manchester</p>
+        <p className="tyler-achievements">First Class (1:1) | 5 A*s at A-Level | Expected graduation: June 2027</p>
+        <p>
+          Final-year project: EEG-based stroke detection using wavelet time-frequency maps and the TUH EEG Corpus.
+          Awarded a UAE Golden Visa for high academic performance.
+        </p>
     </div>
-{/* Highlighted text * 
-    <div className="tyler-highlight tyler-widget">
-        <strong>Currently on placement at IBM Hursley</strong>
-    </div>
-    */}  
   
     <div className="tyler-skills-grid">
         <div className="tyler-skill-category widget tyler-widget-md">
@@ -353,6 +352,9 @@ function App() {
                 <span className="tyler-skill-tag">C</span>
                 <span className="tyler-skill-tag">C#</span>
                 <span className="tyler-skill-tag">Haskell</span>
+                <span className="tyler-skill-tag">Rust</span>
+                <span className="tyler-skill-tag">Go</span>
+                <span className="tyler-skill-tag">Verilog</span>
             </div>
         </div>
         
@@ -367,6 +369,7 @@ function App() {
                 <span className="tyler-skill-tag">Spring Boot</span>
                 <span className="tyler-skill-tag">Tailwind CSS</span>
                 <span className="tyler-skill-tag">Bootstrap</span>
+                <span className="tyler-skill-tag">OpenCV</span>
             </div>
         </div>
         
@@ -382,6 +385,10 @@ function App() {
                 <span className="tyler-skill-tag">PyTest</span>
                 <span className="tyler-skill-tag">JUnit</span>
                 <span className="tyler-skill-tag">Unix</span>
+                <span className="tyler-skill-tag">AWS</span>
+                <span className="tyler-skill-tag">Grafana</span>
+                <span className="tyler-skill-tag">Gerrit</span>
+                <span className="tyler-skill-tag">ClickHouse</span>
             </div>
         </div>
     </div>
@@ -425,8 +432,8 @@ function App() {
               link = "https://github.com/TylerG21566/BrewQuest"
             />
             <ProjectFlipCard
-              title="Polynomial edge detection [C++, bash] + pdf report "
-              description="Utilizes Hough Line transform, Canny edge detection, and OpenCV for preprocessing"
+              title="Edge detection [C++, OpenCV]"
+              description="Combines Canny filtering, Hough lines, and polynomial fitting to detect image boundaries to within approximately 5 pixels."
               image={CannyDetect}
               link = "https://github.com/TylerG21566/PolynomialEdgeDetection"
             />
@@ -445,9 +452,36 @@ function App() {
               link = "https://github.com/TylerG21566/High-frequency-market-data-processor"
             />
 
+            <ProjectFlipCard
+              title="Monkey language compiler [C++20, CMake, GoogleTest]"
+              description="A state-machine lexer, recursive-descent parser, and tree-walking evaluator built from a hand-written grammar, with a REPL."
+              image={Github}
+              link="https://github.com/TylerG21566"
+            />
 
             <ProjectFlipCard
-              title="Naive bayes classifier for spam email filtering [Python, JSON, Juypter notebook]"
+              title="Networking projects [Python, Go]"
+              description="A multithreaded HTTP server for CRUD requests and a TCP load balancer with round-robin routing and health monitoring."
+              image={Github}
+              link="https://github.com/TylerG21566"
+            />
+
+            <ProjectFlipCard
+              title="FPGA music notes [Verilog, Python]"
+              description="Converted MIDI notes to hexadecimal values and sequentially loaded them into memory-mapped buzzer addresses."
+              image={Github}
+              link="https://github.com/TylerG21566"
+            />
+
+            <ProjectFlipCard
+              title="EEG stroke detection [Final-year project]"
+              description="Investigating stroke detection with wavelet time-frequency maps using the TUH EEG Corpus."
+              image={Github}
+              link="https://github.com/TylerG21566"
+            />
+
+            <ProjectFlipCard
+              title="Naive Bayes classifier for spam email filtering [Python, JSON, Jupyter notebook]"
               description="Uses real world data to train a naive bayes classifier for spam email filtering, 98% accuracy"
               image={SpamDetect}
               link = "https://github.com/TylerG21566/CompanyEmailSpamFilter"
@@ -467,6 +501,32 @@ function App() {
             flexDirection: 'column',
             gap: '1.5rem',
           }}>
+            {/* Amazon Prime Video internship */}
+            <div className="widget" style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '1.5rem',
+              boxShadow: '0 8px 32px 0 rgba(31,38,135,0.1)',
+              backdropFilter: 'blur(16px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+              border: '1.5px solid rgba(255,255,255,0.1)',
+              padding: '1.5rem',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
+                <span style={{ fontSize: '1.8rem' }} role="img" aria-label="office">📺</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Software Engineer Intern</div>
+                  <div style={{ color: '#888', fontSize: '0.9rem' }}>Amazon Prime Video · London, UK</div>
+                  <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>July 2026 - September 2026</div>
+                </div>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
+                <li>Worked on the Video Quality Analysis team, flagging TV and livestream defects with ML models using Python, Rust, TypeScript, AWS, and SQL</li>
+                <li>Built a hardware observability service for CPU, GPU, and memory metrics across 40,000 ML pipelines, visualizing over 600 million metrics per day in Grafana</li>
+                <li>Built a high-performance Rust ingestion service to batch-write processed metrics to ClickHouse</li>
+                <li>Led a blue/green VPC migration, implemented routine S3 database backups, and built regression alerts that file tickets and gate deploys</li>
+              </ul>
+            </div>
+
             {/* IBM Hursley Widget */}
             <div className="widget" style={{
               background: 'rgba(255,255,255,0.05)',
@@ -480,15 +540,16 @@ function App() {
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
                 <span style={{ fontSize: '1.8rem' }} role="img" aria-label="office">💼</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Software Engineer Industrial Placement</div>
-                  <div style={{ color: '#888', fontSize: '0.9rem' }}>IBM Hursley · Winchester, UK</div>
+                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Software Development Industrial Placement</div>
+                  <div style={{ color: '#888', fontSize: '0.9rem' }}>IBM · Hursley, UK</div>
                   <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>July 2025 - May 2026</div>
                 </div>
               </div>
               <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
-                <li>Industrial placement at IBM's Hursley Park campus</li>
-                <li>Contributing to enterprise software solutions</li>
-                <li>Working with modern technologies and agile methodologies</li>
+                <li>Delivered production code for the IBM FlashSystem storage platform, supporting a product generating over $1 billion in annual recurring revenue</li>
+                <li>Engineered hybrid-cloud distributed storage systems using Java, Python, Unix/Linux, and C, including live storage partition splitting with zero-downtime high availability</li>
+                <li>Designed and implemented over 100 JUnit and PyTest suites for product-wide features</li>
+                <li>Led a CI/CD issue-diagnosis MCP server (Go, SQL, React) adopted by over 100 IBM engineers</li>
               </ul>
             </div>
 
@@ -511,9 +572,9 @@ function App() {
                 </div>
               </div>
               <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
-                <li>Enhanced legacy code base using <b>C#</b>, <b>.NET</b>, and <b>SQL Server</b></li>
-                <li>Built prototype with <b>MongoDB</b>, <b>Node.js</b>, <b>Express.js</b>, and <b>React.js</b></li>
-                <li>Developed Account Reconciliation Program for Finance Department</li>
+                <li>Enhanced a legacy codebase using <b>C#</b>, <b>.NET</b>, and <b>SQL Server</b></li>
+                <li>Built a leave-request system for over 100 employees using <b>MongoDB</b>, <b>Node.js</b>, <b>Express.js</b>, and <b>React.js</b></li>
+                <li>Developed an account reconciliation program that auto-generated Excel summaries for 20 Finance Department staff</li>
               </ul>
             </div>
 
@@ -532,13 +593,12 @@ function App() {
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Electric Vehicle Software Team</div>
                   <div style={{ color: '#888', fontSize: '0.9rem' }}>UoM Formula Student · Manchester, UK</div>
-                  <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>Oct. 2024 - Mar. 2025</div>
+                  <div style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>Oct. 2024 - Dec. 2024</div>
                 </div>
               </div>
               <ul style={{ margin: 0, paddingLeft: 20, fontSize: '0.95rem', lineHeight: 1.6 }}>
-                <li>Developing formula-style racecars with 80+ students</li>
-                <li>Integrating software for data logging and telemetry</li>
-                <li>Programming in <b>C</b> for STM32 microcontrollers</li>
+                <li>Developed a formula-style race car with an 80-student team for an inter-university competition</li>
+                <li>Analyzed telemetry and data visualizations in Jupyter, identifying 10% tyre slippage around certain corners</li>
               </ul>
             </div>
 
