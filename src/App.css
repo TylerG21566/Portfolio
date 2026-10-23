@@ -454,6 +454,65 @@ body.dark-mode .dark-toggle-btn {
   }
 }
 
+/* Experience logo carousel */
+.logo-carousel {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+.logo-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: logo-scroll 24s linear infinite;
+}
+.logo-carousel:hover .logo-carousel-track {
+  animation-play-state: paused;
+}
+.logo-carousel-item {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 80px;
+  margin-right: 1.5rem;
+  padding: 0.9rem 1.2rem;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px 0 rgba(31,38,135,0.12);
+}
+.logo-carousel-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+@keyframes logo-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-carousel-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    row-gap: 1rem;
+  }
+  .logo-carousel-item[aria-hidden="true"] {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .logo-carousel-item {
+    width: 130px;
+    height: 60px;
+    margin-right: 1rem;
+  }
+}
+
 /* Accessibility improvements
 @media (prefers-reduced-motion: reduce) {
   .tyler-widget, .tyler-skill-tag, .tyler-profile-card, .tyler-animate-grow {

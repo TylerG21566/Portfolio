@@ -5,10 +5,17 @@ import ProjectFlipCard from './ProjectFlipCard';
 import BrewQuestImg from './assets/BrewQuest.png';
 import Github from './assets/GitHub.png';
 import CannyDetect from './assets/CannyDetect.jpg';
-import HFT from './assets/HFT.jpg';
 import SpamDetect from './assets/email_spam.jpg';
 import Kilburn from './assets/Kilburn.jpg';
 import YourImage from './assets/Image.png';
+import CompilerImg from './assets/Compiler.png';
+import NetworkingImg from './assets/Networking.jpg';
+import FPGAImg from './assets/FPGA.jpg';
+import EEGImg from './assets/EEG.png';
+import AlJaberLogo from './assets/logos/AlJaber.png';
+import UoMLogo from './assets/logos/UoM.png';
+import AmazonLogo from './assets/logos/Amazon.svg';
+import IBMLogo from './assets/logos/IBM.svg';
 
 
 // Add global styles to prevent horizontal scroll
@@ -144,6 +151,32 @@ function AnimatedHeading({ children }: { children: React.ReactNode }) {
 
   return (
     <h1 ref={ref} className="mb-4 animated-heading" style={{ fontSize: '2rem', textAlign: 'center' }}>{children}</h1>
+  );
+}
+
+const experienceLogos = [
+  { src: AlJaberLogo, name: 'Al Jaber Group' },
+  { src: UoMLogo, name: 'University of Manchester' },
+  { src: AmazonLogo, name: 'Amazon' },
+  { src: IBMLogo, name: 'IBM' },
+];
+
+function LogoCarousel() {
+  // The list is rendered twice so the track can loop seamlessly at -50%
+  const items = [...experienceLogos, ...experienceLogos];
+  return (
+    <div className="logo-carousel">
+      <div className="logo-carousel-track">
+        {items.map((logo, i) => {
+          const duplicate = i >= experienceLogos.length;
+          return (
+            <div className="logo-carousel-item" key={i} aria-hidden={duplicate || undefined}>
+              <img src={logo.src} alt={duplicate ? '' : logo.name} />
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -446,37 +479,30 @@ function App() {
             />
 
             <ProjectFlipCard
-              title="High frequency stock data processing [C++]"
-              description="Utilizes AlphaVantage API for processing high frequency stock data. (work in progress)"
-              image={HFT}
-              link = "https://github.com/TylerG21566/High-frequency-market-data-processor"
-            />
-
-            <ProjectFlipCard
               title="Monkey language compiler [C++20, CMake, GoogleTest]"
               description="A state-machine lexer, recursive-descent parser, and tree-walking evaluator built from a hand-written grammar, with a REPL."
-              image={Github}
+              image={CompilerImg}
               link="https://github.com/TylerG21566"
             />
 
             <ProjectFlipCard
               title="Networking projects [Python, Go]"
               description="A multithreaded HTTP server for CRUD requests and a TCP load balancer with round-robin routing and health monitoring."
-              image={Github}
+              image={NetworkingImg}
               link="https://github.com/TylerG21566"
             />
 
             <ProjectFlipCard
               title="FPGA music notes [Verilog, Python]"
               description="Converted MIDI notes to hexadecimal values and sequentially loaded them into memory-mapped buzzer addresses."
-              image={Github}
+              image={FPGAImg}
               link="https://github.com/TylerG21566"
             />
 
             <ProjectFlipCard
               title="EEG stroke detection [Final-year project]"
               description="Investigating stroke detection with wavelet time-frequency maps using the TUH EEG Corpus."
-              image={Github}
+              image={EEGImg}
               link="https://github.com/TylerG21566"
             />
 
@@ -494,6 +520,7 @@ function App() {
         
         <section id="experience" style={{ minHeight: '100vh', paddingTop: 40, paddingBottom: 40 }}>
           <AnimatedHeading>Experience</AnimatedHeading>
+          <LogoCarousel />
           <div className="experience-widgets" style={{
             maxWidth: 900,
             margin: '0 auto',
